@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <script src=“https://kit.fontawesome.com/d74d0e70eb.js” crossorigin=“anonymous”></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="./css/purchased.css">
+<link rel="stylesheet" href="./css/map.css">
+</head>
+<body>
+  <div class="navigation-bar">
+    <ul>
+      <li class="active"><a href="/profile">Home<span class="underline"></span></a></li>
+      <li><a href="/marketplace">Shop<span class="underline"></span></a></li>
+      <li><a href="/listings">My listings<span class="underline"></span></a></li> 
+      <li><a href="/purchased">My purchased<span class="underline"></span></a></li>
+      <li><a href="/logout">Logout<span class="underline"></span></a></li>
+        
+    </ul>
+</div>
+<!-- partial:index.partial.html -->
+
+<section class="container">
+    <% for(let i = 0; i < data.length; i++){%>
+  <div class="profile">
+    <img src="<%= data[i].imgPath %>" class="image" />
+    <h2 class="name"><%= data[i].title %></h2>
+    <h3 class="handle"><%= data[i].seller %></h3>
+    <h4 class="location">📍 <%= data[i].address %></h4>
+    <p class="description"><%= data[i].description %></p>
+    <% if(data[i].isAvailabale === true){%>
+      <% for(let x = 0; x < result.length; x++){%>
+        <% if(data[i]._id.equals(result[x].item[0]._id)){%>
+          <form action="/editListing" method="post">
+          <textarea name="description" class="description"><%= data[i].description %></textarea>
+          <input type="hidden" name="itemId" value="<%= data[i]._id %>">
+          <button type="submit">Update Description</button>
+        </form>
+      <button class="sellToUser" data-seller="<%= result[x].user %>" data-itemId="<%=result[x].item[0]._id %>">Sell To User</button>
+      <%}%>
+      <%}%>
+      <%}else{%>
+      <p>Sold</p>
+      <%}%>
+  </div>
+  <%}%>
+</section>  
+
+  
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjF4bqBu5j4eX7WU_EUnvlFRTkvs8iLac&libraries=places"></script>
+<script src="listings.js"></script>
+</body>
+</html>
